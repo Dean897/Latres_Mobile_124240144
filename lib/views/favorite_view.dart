@@ -5,9 +5,15 @@ import '../controllers/favorite_controller.dart';
 import 'detail_view.dart';
 import '../theme/app_colors.dart';
 
+/// Halaman yang menampilkan seluruh tayangan favorit dari Hive.
+///
+/// Perubahan data dipantau oleh [FavoriteController], sehingga daftar dapat
+/// diperbarui tanpa navigasi ulang secara manual.
 class FavoriteView extends StatelessWidget {
+  /// Membuat halaman favorit.
   const FavoriteView({super.key});
 
+  /// Menampilkan empty state atau daftar kartu favorit.
   @override
   Widget build(BuildContext context) {
     final controller = Get.put(FavoriteController());
@@ -20,8 +26,11 @@ class FavoriteView extends StatelessWidget {
       body: Obx(() {
         if (controller.favorites.isEmpty) {
           return const Center(
-            child: Text('Belum ada tayangan favorit.\nYuk tambahkan favoritmu!',
-                textAlign: TextAlign.center, style: TextStyle(color: Colors.white70)),
+            child: Text(
+              'Belum ada tayangan favorit.\nYuk tambahkan favoritmu!',
+              textAlign: TextAlign.center,
+              style: TextStyle(color: Colors.white70),
+            ),
           );
         }
         return ListView.builder(
@@ -37,14 +46,19 @@ class FavoriteView extends StatelessWidget {
                 contentPadding: const EdgeInsets.all(8),
                 onTap: () => Get.to(() => DetailView(showId: id)),
                 leading: _thumbnail(item['image'] as String? ?? ''),
-                title: Text(item['name'] as String? ?? 'Untitled show',
-                    maxLines: 2, overflow: TextOverflow.ellipsis,
-                    style: const TextStyle(fontWeight: FontWeight.bold)),
-                subtitle: Row(children: [
-                  const Icon(Icons.star, color: AppColors.rating, size: 16),
-                  const SizedBox(width: 4),
-                  Text((item['rating'] as num?)?.toStringAsFixed(1) ?? 'N/A'),
-                ]),
+                title: Text(
+                  item['name'] as String? ?? 'Untitled show',
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(fontWeight: FontWeight.bold),
+                ),
+                subtitle: Row(
+                  children: [
+                    const Icon(Icons.star, color: AppColors.rating, size: 16),
+                    const SizedBox(width: 4),
+                    Text((item['rating'] as num?)?.toStringAsFixed(1) ?? 'N/A'),
+                  ],
+                ),
                 trailing: IconButton(
                   onPressed: () => controller.removeFavorite(id),
                   icon: const Icon(Icons.delete, color: AppColors.accent),
@@ -57,17 +71,26 @@ class FavoriteView extends StatelessWidget {
     );
   }
 
+  /// Menampilkan thumbnail favorit atau placeholder gambar.
   Widget _thumbnail(String url) {
     if (url.isEmpty) return _placeholder();
     return ClipRRect(
       borderRadius: BorderRadius.circular(8),
-      child: Image.network(url, width: 58, height: 72, fit: BoxFit.cover,
-          errorBuilder: (_, _, _) => _placeholder()),
+      child: Image.network(
+        url,
+        width: 58,
+        height: 72,
+        fit: BoxFit.cover,
+        errorBuilder: (_, _, _) => _placeholder(),
+      ),
     );
   }
 
+  /// Placeholder yang digunakan ketika thumbnail tidak tersedia.
   Widget _placeholder() => Container(
-        width: 58, height: 72, color: Colors.white10,
-        child: const Icon(Icons.movie_outlined, color: Colors.white38),
-      );
+    width: 58,
+    height: 72,
+    color: Colors.white10,
+    child: const Icon(Icons.movie_outlined, color: Colors.white38),
+  );
 }

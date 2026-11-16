@@ -5,9 +5,15 @@ import '../controllers/auth_controller.dart';
 import '../services/storage_service.dart';
 import '../theme/app_colors.dart';
 
+/// Halaman profil yang menampilkan username, pesan praktikum, dan logout.
+///
+/// Username dibaca dari [StorageService], sedangkan aksi logout didelegasikan
+/// kepada [AuthController].
 class ProfileView extends StatelessWidget {
+  /// Membuat halaman profil.
   const ProfileView({super.key});
 
+  /// Menampilkan informasi profil dan tombol logout.
   @override
   Widget build(BuildContext context) {
     final authController = Get.put(AuthController());
@@ -23,36 +29,47 @@ class ProfileView extends StatelessWidget {
           final username = snapshot.data ?? '124240144';
           return SingleChildScrollView(
             padding: const EdgeInsets.all(28),
-            child: Column(children: [
-              const CircleAvatar(
-                radius: 54,
-                backgroundColor: AppColors.surface,
-                child: Icon(Icons.person, size: 62, color: AppColors.accent),
-              ),
-              const SizedBox(height: 16),
-              Text(username, style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-              const SizedBox(height: 28),
-              const Text(
-                'Kesan: Praktikum mobile sangat seru (kayaknya) dan menantang (banget), banyak belajar hal-hal baru tentang pengembangan aplikasi mobile.\n\n'
-                'Pesan: Terima kasih kepada kakak-kakak asisten praktikum atas bimbingannya selama satu semester ini!',
-                textAlign: TextAlign.center,
-                style: TextStyle(color: AppColors.mutedText, height: 1.5),
-              ),
-              const SizedBox(height: 32),
-              SizedBox(
-                width: double.infinity,
-                height: 52,
-                child: ElevatedButton(
-                  onPressed: authController.logout,
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColors.accent,
-                    foregroundColor: Colors.white,
-                    shape: const StadiumBorder(),
-                  ),
-                  child: const Text('Logout', style: TextStyle(fontWeight: FontWeight.bold)),
+            child: Column(
+              children: [
+                const CircleAvatar(
+                  radius: 54,
+                  backgroundColor: AppColors.surface,
+                  child: Icon(Icons.person, size: 62, color: AppColors.accent),
                 ),
-              ),
-            ]),
+                const SizedBox(height: 16),
+                Text(
+                  username,
+                  style: const TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                const SizedBox(height: 28),
+                const Text(
+                  'Kesan: Praktikum mobile sangat seru (kayaknya) dan menantang (banget), banyak belajar hal-hal baru tentang pengembangan aplikasi mobile.\n\n'
+                  'Pesan: Terima kasih kepada kakak-kakak asisten praktikum atas bimbingannya selama satu semester ini!',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(color: AppColors.mutedText, height: 1.5),
+                ),
+                const SizedBox(height: 32),
+                SizedBox(
+                  width: double.infinity,
+                  height: 52,
+                  child: ElevatedButton(
+                    onPressed: authController.logout,
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: AppColors.accent,
+                      foregroundColor: Colors.white,
+                      shape: const StadiumBorder(),
+                    ),
+                    child: const Text(
+                      'Logout',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                ),
+              ],
+            ),
           );
         },
       ),

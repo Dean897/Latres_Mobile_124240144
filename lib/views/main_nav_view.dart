@@ -5,7 +5,11 @@ import 'home_view.dart';
 import 'profile_view.dart';
 import '../theme/app_colors.dart';
 
+/// Container navigasi utama setelah user berhasil login.
+///
+/// [IndexedStack] menjaga state tiap halaman saat user berpindah tab.
 class MainNavView extends StatefulWidget {
+  /// Membuat navigasi utama.
   const MainNavView({super.key});
 
   @override
@@ -16,6 +20,7 @@ class _MainNavViewState extends State<MainNavView> {
   int _selectedIndex = 0;
   final _pages = const [HomeView(), FavoriteView(), ProfileView()];
 
+  /// Membuat body halaman dan navigasi bawah.
   @override
   Widget build(BuildContext context) {
     return Scaffold(
